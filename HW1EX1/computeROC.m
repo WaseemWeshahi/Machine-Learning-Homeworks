@@ -16,3 +16,4 @@ for th = 1 : length(R)
     rate(th,2) = size(find(sR(th+1:end,2) == 1),1)/Class1Length;
     rate(th,3)=sR(th,1);
 end
+end

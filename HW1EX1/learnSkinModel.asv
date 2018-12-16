@@ -77,7 +77,7 @@ F = mvnpdf([X1(:) X2(:)],meanBg',sigmaBg');
 F = reshape(F,length(x2),length(x1));
 surf(x1,x2,F);
 caxis([min(F(:))-.5*range(F(:)),max(F(:))]);
-axis([0 1 0 1 0 100])
+axis([0 1 0 1 0 1])
 xlabel('Red ratio'); ylabel('Green Ratio'); zlabel('Probability Density in being a background');
 %... draw plot(xAxis,skinRed)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
