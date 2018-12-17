@@ -100,15 +100,15 @@ xlabel('Red ratio'); ylabel('Green Ratio'); zlabel('Probability Density in being
 % You can use any image from  250 to 370 for these purpose.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-gt_pos = valid_lb==1;
-gt_neg = valid_lb==0;
-lr = (mvnpdf(valid_data',meanSkin',sigmaSkin'))*skinPosterior./(mvnpdf(valid_data',meanSkin',sigmaSkin')*skinPosterior + mvnpdf(valid_data',meanBg',sigmaBg'))*bgPosterior;
+gt_pos = valid_lb==0;
+gt_neg = valid_lb==1;
+lr = (mvnpdf(valid_data',meanSkin',sigmaSkin'))*skinPosterior./((mvnpdf(valid_data',meanSkin',sigmaSkin')*skinPosterior + mvnpdf(valid_data',meanBg',sigmaBg'))*bgPosterior);
 ROC = computeROC(lr(gt_pos),lr(gt_neg));
 % where lr is the predicted score, gt_pos are the indices of the skin points and gt_neg are the indices of the background points.
 % The EER is a point on the ROC curve that gives the equal error rate for both classes. It can be
 % compute as follows:
 
-[~, r]=min(abs(ROC(:,1)-ROC(:,2)));
+[~, r]=max(1-(abs(ROC(:,1)+ROC(:,2))./2));
 eer = ROC(r,:);
 % Consider tweaking this threshold for better results
 th = eer(3);

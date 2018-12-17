@@ -21,7 +21,7 @@ skinPost = model_skin(end,end);
 bgPost = model_bkg(end,end);
 
 %consider using posteriors
-lr = (mvnpdf(v,muSkin',sigmaSkin'))*skinPost./(mvnpdf(v,muSkin',sigmaSkin')*skinPost + mvnpdf(v,muBg',sigmaBg'))*bgPost;
+lr = (mvnpdf(v,muSkin',sigmaSkin'))*skinPost./((mvnpdf(v,muSkin',sigmaSkin')*skinPost + mvnpdf(v,muBg',sigmaBg'))*bgPost);
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 lb_pred=zeros(size(lb));

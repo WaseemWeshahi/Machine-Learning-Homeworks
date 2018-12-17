@@ -1,0 +1,34 @@
+function [Pw,P] = learn_NB_text
+
+m = matfile('corpus_train.mat');
+
+P = zeros(1,length(m.cat)); 
+
+totalsum=0;
+
+for j=1:length(m.cat)
+    sum=0;
+    for i =1:length(m.lbAll)
+        if(m.cat(j)==m.lbAll(i))
+           sum=sum+length(m.texAll(i));
+        end
+    end
+    P(j)=sum;
+    totalsum=totalsum+sum;
+end
+%P = P/totalsum;
+
+Pw = zeros(length(m.cat),length(m.voc));
+for j=1:length(m.cat)
+    cls = texAll(find(lbAll==m.cat(j)));
+    
+    for w=1:length(m.voc)
+        nk=0;
+        
+
+
+
+
+
+
+            
