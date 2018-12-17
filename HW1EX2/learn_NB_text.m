@@ -1,34 +1,41 @@
 function [Pw,P] = learn_NB_text
-
+format long
 m = matfile('corpus_train.mat');
-
+texAll = m.texAll;
+cat = m.cat;
+lbAll = m.lbAll;
+voc = m.Voc;
 P = zeros(1,length(m.cat)); 
 
-totalsum=0;
+wordsCount=0;
 
-for j=1:length(m.cat)
+% Calculating Priors of each class
+for j=1:length(cat)
     sum=0;
-    for i =1:length(m.lbAll)
-        if(m.cat(j,1)==m.lbAll(i,1))
-           sum=sum+length(m.texAll(i,1));
+    for i =1:length(lbAll)
+        if(ismember(cat{j,1},lbAll{i,1})) 
+           sum=sum+length(texAll{i,1});
         end
     end
     P(j)=sum;
-    totalsum=totalsum+sum;
+    wordsCount=wordsCount+sum;
 end
-%P = P/totalsum;
+P = P/wordsCount; %to get the probabilities
 
-Pw = zeros(length(m.voc),length(m.cat));
-for j=1:length(m.cat)
-    cls = texAll(find(lbAll==m.cat(j)));
+Pw = zeros(length(voc),length(cat));
+for j=1:length(cat)
+    % cls is a cell array, each cell containing a line that belongs to the
+    % category j
+    textj = texAll(ismember(lbAll,cat(j)));
     
-    for w=1:length(m.voc)
-        nk=0;
-        
-        for i=1:length(cls)
-            nk=nk+length(find(cls==w));
-        end
-        Pw(w,j)= (nk+1)/(P(j)+totalsum);
+    %now we cancatenate all lines, forming one huge cell with the words
+    %that belong to category j (has duplicate words)
+    textj = vertcat(textj{:});
+    n = length(textj);
+    for w=1:length(voc)
+        % nk number of occurnces for word w in the textj
+        nk = nnz(strcmp(textj,voc(w)));       
+        Pw(w,j)= (nk+1)/(n+wordsCount);
     end
 end
 
