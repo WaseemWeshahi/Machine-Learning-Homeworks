@@ -16,8 +16,8 @@ lbAll = m.lbAll;
 
 suc = 0;
 
-Pw = log(Pw); % to avoid underflow
-P = log(P);
+ Pw = log(Pw); % to avoid underflow
+ P = log(P);
 % for each line, we guess what class he belongs toe
 for i=1:length(testAll)
     % todo: find the posetions in which the word belong to the vocab that
@@ -30,11 +30,11 @@ for i=1:length(testAll)
         positions(j) = find(strcmp(voc,docs(j)));
     end
     
-    probVec = P+sum(Pw(mod(positions,14575)+1,:));
-    [~,ind] = max((probVec));
+    probVec = P.*sum(Pw(mod(positions,14575)+1,:));
+    [~,ind] = min((probVec));
     pred = cat{ind};
     if(ismember(pred,lbAll{i}))
         suc = suc+1;
     end
 end
-suc = suc/lines;
+suc = suc/length(testAll);

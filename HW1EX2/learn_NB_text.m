@@ -13,22 +13,23 @@ cat = m.cat;
 lbAll = m.lbAll;
 voc = m.Voc;
 
-wordsCount=0;
+% number of all words in the examples (counting duplicates)
+wordsCount=sum(cellfun('length',texAll));
+% length of the Vocabulary
+vocSize = length(voc);
 
 P = zeros(1,length(cat)); 
 Pw = zeros(length(voc),length(cat));
 for j=1:length(cat)
     % Calculating Priors
-    sum=0; % The number of words labeled j (counting duplicates)
+    jCount=0; % The number of words labeled j (counting duplicates)
     for i =1:length(lbAll)
         if(ismember(cat{j,1},lbAll{i,1})) % equavilant of ==
-           sum=sum+length(texAll{i,1});
+           jCount=jCount+length(texAll{i,1});
         end
     end
-    P(j)=sum;
-    P = P/wordsCount; %to get the probabilities
-
-    wordsCount=wordsCount+sum;
+    fac = sum(cellfun('length',texAll(strcmp(cat{j},lbAll))));
+    P(j)=fac/wordsCount;
     % cls is a cell array, each cell containing a line that belongs to the
     % category j
     textj = texAll(ismember(lbAll,cat(j)));
@@ -39,10 +40,12 @@ for j=1:length(cat)
     n = length(textj);
     for w=1:length(voc)
         % nk number of occurnces for word w in the textj
-        nk = nnz(strcmp(textj,voc(w)));       
-        Pw(w,j)= (nk+1)/(n+wordsCount);
+        nk = n          ``nz(strcmp(textj,voc(w)));       
+        Pw(w,j)= (nk+1)/(n+vocSize);
     end
 end
+end
+
 
 
 
