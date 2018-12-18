@@ -44,3 +44,12 @@ imagesc(pred_mask);
 %ground truth mask
 figure;
 imagesc(mask);
+trueMask = mask / 255;
+trueMask = trueMask(:,:,1)+trueMask(:,:,2)+trueMask(:,:,3);
+trueMask(trueMask ~= 3) = 1;
+trueMask(trueMask == 3) = 0;
+correctClass = length(find(trueMask==pred_mask));
+[r,c,~] = size(mask);
+correctClass = correctClass/ (r*c);
+disp("Correctly classified pixels: "+ correctClass*100 + "%");
+
