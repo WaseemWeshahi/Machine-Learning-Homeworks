@@ -1,23 +1,23 @@
-function suc = ClassifyNB_text(Pw,P)
+function suc = Classify_NB_text(Pw,P)
 % INPUT: test data documnets
 %        Pw - Conditinal probabilities matrix
 %        P  - class priors
 % OUTPUT: 
 %       suc - success rate: number of successfully classified documents
 
-m = matfile('corpus_train.mat');
-cat = m.cat;
-voc = m.Voc;
+test = matfile('corpus_test.mat');
+train = matfile('corpus_train.mat');
 
+cat = train.cat;
+voc = train.Voc;
 
-testAll = m.texAll;
-
-lbAll = m.lbAll;
+testAll = test.TestexAll;
+lbAll = test.TestlbAll;
 
 suc = 0;
 
-Pw = log(Pw); % to avoid underflow
-P = log(P);
+ Pw = log(Pw); % to avoid underflow
+ P = log(P);
 % for each line, we guess what class he belongs toe
 for i=1:length(testAll)
     % todo: find the posetions in which the word belong to the vocab that
@@ -32,9 +32,10 @@ for i=1:length(testAll)
     
     probVec = P+sum(Pw(positions,:));
     [~,ind] = max((probVec));
+
     pred = cat{ind};
     if(ismember(pred,lbAll{i}))
         suc = suc+1;
     end
 end
-suc = suc/lines;
+suc = suc/length(testAll);

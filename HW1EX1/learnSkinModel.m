@@ -57,7 +57,7 @@ bgPosterior = ntrain2 / (ntrain1+ntrain2);
 
 %Plot distribution 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-xAxis = linspace(0,1,150); % values from 0 to 1
+% xAxis = linspace(0,1,150); % values from 0 to 1
 % skinRed = normpdf(xAxis,meanSkin(1),sqrt(sigmaSkin(1,1)));
 % skinGreen = normpdf(xAxis,meanSkin(2),sqrt(sigmaSkin(2,2)));
 % bgRed = normpdf(xAxis,meanBg(1),sqrt(sigmaBg(1,1)));
