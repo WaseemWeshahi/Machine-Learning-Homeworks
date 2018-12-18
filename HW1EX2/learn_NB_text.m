@@ -40,7 +40,7 @@ for j=1:length(cat)
     n = length(textj);
     for w=1:length(voc)
         % nk number of occurnces for word w in the textj
-        nk = n          ``nz(strcmp(textj,voc(w)));       
+        nk = nnz(strcmp(textj,voc(w)));       
         Pw(w,j)= (nk+1)/(n+vocSize);
     end
 end
