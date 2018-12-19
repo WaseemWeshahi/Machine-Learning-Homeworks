@@ -72,7 +72,7 @@ surf(x1,x2,F);
 caxis([min(F(:))-.5*range(F(:)),max(F(:))]);
 axis([0 1 0 1 0 100])
 xlabel('Red ratio'); ylabel('Green Ratio'); zlabel('Probability Density in being a skin');
-figure
+ figure
 F = mvnpdf([X1(:) X2(:)],meanBg',sigmaBg');
 F = reshape(F,length(x2),length(x1));
 surf(x1,x2,F);
@@ -100,16 +100,19 @@ xlabel('Red ratio'); ylabel('Green Ratio'); zlabel('Probability Density in being
 % You can use any image from  250 to 370 for these purpose.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-gt_pos = valid_lb==0;
-gt_neg = valid_lb==1;
-lr = (mvnpdf(valid_data',meanSkin',sigmaSkin'))*skinPosterior./((mvnpdf(valid_data',meanSkin',sigmaSkin')*skinPosterior + mvnpdf(valid_data',meanBg',sigmaBg'))*bgPosterior);
+gt_pos = valid_lb==1;
+gt_neg = valid_lb==0;
+PrGivenSkin = (mvnpdf(valid_data',meanSkin',sigmaSkin'));
+PrGivenBg = (mvnpdf(valid_data',meanBg',sigmaBg'));
+lr = PrGivenSkin*skinPosterior./(PrGivenBg*bgPosterior+PrGivenSkin*skinPosterior);
 ROC = computeROC(lr(gt_pos),lr(gt_neg));
 % where lr is the predicted score, gt_pos are the indices of the skin points and gt_neg are the indices of the background points.
 % The EER is a point on the ROC curve that gives the equal error rate for both classes. It can be
 % compute as follows:
 
-% [~, r]=min(ROC(:,2)).^2 + (0-(1-ROC(:,1))).^2);
-  [~, r]=min(abs(skinPosterior*ROC(:,1)-bgPosterior*ROC(:,2)));
+ [~, r]=min(abs(skinPosterior*ROC(:,1)-bgPosterior*ROC(:,2)));
+%  [~,r] = min((0-(1-ROC(:,1))).^2 + (1-ROC(:,2)).^2);
+% [~, r]=min(abs(ROC(:,1)-ROC(:,2)));
 eer = ROC(r,:);
 % Consider tweaking this threshold for better results
 th = eer(3);

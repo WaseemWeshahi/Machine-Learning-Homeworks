@@ -21,7 +21,9 @@ skinPost = model_skin(end,end);
 bgPost = model_bkg(end,end);
 
 %consider using posteriors
-lr = (mvnpdf(v,muSkin',sigmaSkin'))*skinPost./((mvnpdf(v,muSkin',sigmaSkin')*skinPost + mvnpdf(v,muBg',sigmaBg'))*bgPost);
+PrGivenSkin = (mvnpdf(v,muSkin',sigmaSkin'));
+PrGivenBg = (mvnpdf(v,muBg',sigmaBg'));
+lr = PrGivenSkin*skinPost./(PrGivenBg*bgPost+PrGivenSkin*skinPost);
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 lb_pred=zeros(size(lb));
@@ -36,7 +38,7 @@ figure;
 plot(1-roc(:,1),roc(:,2));
 x=roc(:,1);
 y=(roc(2:end,2)+roc(1:end-1,2))/2;
-res=sum(diff(x).*y);    
+res=sum(diff(x).*y);
 %predicted mask
 pred_mask=reshape(lb_pred,size(mask,1),size(mask,2));
 figure
