@@ -17,13 +17,13 @@ muBg = model_bkg(:,1);
 sigmaSkin = model_skin(:,2:3);
 sigmaBg = model_bkg(:,2:3);
 
-skinPost = model_skin(end,end);
-bgPost = model_bkg(end,end);
+skinPrior = model_skin(end,end);
+bgPrior = model_bkg(end,end);
 
 %consider using posteriors
 PrGivenSkin = (mvnpdf(v,muSkin',sigmaSkin'));
 PrGivenBg = (mvnpdf(v,muBg',sigmaBg'));
-lr = PrGivenSkin*skinPost./(PrGivenBg*bgPost+PrGivenSkin*skinPost);
+lr = PrGivenSkin*skinPrior./(PrGivenBg*bgPrior);
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 lb_pred=zeros(size(lb));
