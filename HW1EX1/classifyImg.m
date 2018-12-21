@@ -20,7 +20,6 @@ sigmaBg = model_bkg(:,2:3);
 skinPrior = model_skin(end,end);
 bgPrior = model_bkg(end,end);
 
-%consider using posteriors
 PrGivenSkin = (mvnpdf(v,muSkin',sigmaSkin'));
 PrGivenBg = (mvnpdf(v,muBg',sigmaBg'));
 lr = PrGivenSkin*skinPrior./(PrGivenBg*bgPrior);

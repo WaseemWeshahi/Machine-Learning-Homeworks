@@ -20,11 +20,8 @@ suc = 0;
  P = log(P);
 % for each line, we guess what class he belongs toe
 for i=1:length(testAll)
-    % todo: find the posetions in which the word belong to the vocab that
-    % we've built
-    % positions = strfind(texAll 
     idx = ismember(testAll{i},voc); % we take only the words that have previously 
-    docs = testAll{i}(idx);         % appeared in out vocabulary
+    docs = testAll{i}(idx);         % appeared in our vocabulary
     positions = zeros(1,length(docs));
     for j=1:length(docs)
         positions(j) = find(strcmp(voc,docs(j)));

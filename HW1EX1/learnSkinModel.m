@@ -110,16 +110,17 @@ ROC = computeROC(lr(gt_pos),lr(gt_neg));
 % The EER is a point on the ROC curve that gives the equal error rate for both classes. It can be
 % compute as follows:
 
+% differnet approaches to chosing the threshold:
  [~, r]=min(abs(ROC(:,1)-ROC(:,2)));
-%  [~,r] = min((0-(1-ROC(:,1))).^2 + (1-ROC(:,2)).^2);
-% [~, r]=min(abs(ROC(:,1)-ROC(:,2)));
+% [~,r] = min((0-(1-ROC(:,1))).^2 + (1-ROC(:,2)).^2);
+% [~, r]=min(abs(skinPrior*ROC(:,1)-bgPrior*ROC(:,2)));
+
 eer = ROC(r,:);
-% Consider tweaking this threshold for better results
 th = eer(3);
 model_skin = zeros(2,4);
 model_bkg = zeros(2,4);
+
 model_skin(:,1) = meanSkin;
-%MAY consider sending the whole sigma Matrix
 model_skin(:,2:3) = sigmaSkin;
 model_skin(:,4) = skinPrior;
 
