@@ -1,0 +1,5 @@
+data = matfile('regdata.mat');
+d = data.R;
+noMPG = d;
+MPG = d(:,1);  % the mpgs
+noMPG(:,1)=[]; % the

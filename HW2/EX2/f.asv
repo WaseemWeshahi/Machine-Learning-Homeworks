@@ -1,0 +1,14 @@
+function w=solve(X,y,train)
+%% setting up train and test data
+idx = randi(size(X,2),1,size(X,2));
+y = y(idx,:);
+X = X(idx,:);
+ytrain = y(1:train,:);
+Xtrain = X(1:train,:);
+ytest = y(train+1:end,:);
+Xtest = X(train+1:end,:);
+%% predecting w
+w = Xtr
+
+
+end
